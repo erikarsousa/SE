@@ -5,7 +5,7 @@
 #define LED_PIN 13
 
 int estado;
-unsigned long tpisca;
+unsigned long tpisca = 1000;
 unsigned long t;
 unsigned long t1;
 bool pressionadob1;
@@ -68,23 +68,25 @@ void setup() {
   pinMode(BUT1_PIN,INPUT);      // Enable pin 6 for digital input
   pinMode(BUT2_PIN,INPUT);       // Enable pin 7 for digital input
   estado1(millis());
-  tpisca=1000;
-  t=0;
-  t1=0;
-  pressionadob1=false;
-  pressionadob2=false;
+  //tpisca=1000;
+  t = 0;
+  t1 = 0;
+  pressionadob1 = false;
+  pressionadob2 = false;
 }
 
 void loop() {
   int but1 = digitalRead(BUT1_PIN); //Le o estado do botao 1
   int but2 = digitalRead(BUT2_PIN); //Le o estado do botao 2
-  unsigned long atual=millis();
+  unsigned long atual = millis();
   
   Serial.print(but1);
   Serial.print("   ");
   Serial.print(but2);
   Serial.print("   ");
-  Serial.println(estado);
+  Serial.print(estado);
+  Serial.print("   ");
+  Serial.println(tpisca);
   
   switch (estado)
   {
@@ -103,11 +105,11 @@ void loop() {
       pressionadob2 = true;
       estado5(atual);
     }   
-    else if (!but1 && pressionadob1==true)
+    else if (!but1 && pressionadob1 == true)
     { 
       pressionadob1 = false; 
     }
-    else if (!but2 && pressionadob2==true)
+    else if (!but2 && pressionadob2 == true)
     {
       pressionadob2 = false;
     }
@@ -149,7 +151,7 @@ void loop() {
     }
     else if (!but1)
     {
-      tpisca += 50;
+      tpisca += 200;
       pressionadob1 = false;
       estado1(atual);
     }
@@ -170,7 +172,7 @@ void loop() {
     }
     else if (!but1)
     {
-      tpisca += 50;
+      tpisca += 200;
       pressionadob1 = false;
       estado2(atual);
     }
@@ -191,7 +193,8 @@ void loop() {
     }
     else if (!but2)
     {
-      tpisca -= 50;
+      if(tpisca >=400)
+        tpisca -= 200;
       pressionadob2 = false;
       estado1(atual);
     }
@@ -212,7 +215,8 @@ void loop() {
     }
     else if (!but2)
     {
-      tpisca -= 50;
+      if(tpisca >=400)
+        tpisca -= 200;
       pressionadob2 = false;
       estado2(atual);
     }
